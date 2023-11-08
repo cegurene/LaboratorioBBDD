@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.3-beta1" use-changelog="false" last-position="0,0" last-zoom="1" max-obj-count="15"
+	 default-owner="postgres">
+<database name="new_database" is-template="false" allow-conns="true">
+</database>
+
+<schema name="public" layer="0" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="Personal" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="320" y="20"/>
+	<column name="nombre" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="año_nacimiento">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="año_muerte">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="Personal_pk" type="pk-constr" table="public.&quot;Personal&quot;">
+		<columns names="nombre" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="Actores" layer="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="40" y="180"/>
+</table>
+
+<relationship name="Actores_Personal" type="rel11" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#cffdc0"
+	 src-table="public.&quot;Personal&quot;"
+	 dst-table="public.&quot;Actores&quot;"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+>
+	<label ref-type="name-label">
+		<position x="-0.742382" y="15.0427"/>
+	</label>
+</relationship>
+
+<table name="Directores" layer="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="400" y="240"/>
+</table>
+
+<relationship name="Directores_Personal" type="rel11" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#0d88bf"
+	 src-table="public.&quot;Personal&quot;"
+	 dst-table="public.&quot;Directores&quot;"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+>
+	<label ref-type="name-label">
+		<position x="105.258" y="5.04274"/>
+	</label>
+</relationship>
+
+<table name="Guionistas" layer="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="720" y="60"/>
+</table>
+
+<relationship name="Guionistas_Personal" type="rel11" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#e0b42c"
+	 src-table="public.&quot;Personal&quot;"
+	 dst-table="public.&quot;Guionistas&quot;"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+/>
+
+<table name="películas" layer="0" collapse-mode="2" max-obj-count="7" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="440" y="580"/>
+	<column name="año" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="título" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="idioma">
+		<type name="char" length="2"/>
+	</column>
+	<column name="duración">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="calificación">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="películas_pk" type="pk-constr" table="public.&quot;películas&quot;">
+		<columns names="año,título" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="nombre_Personal_Directores" index="5"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="Directores_fk" index="0"/>
+	</customidxs>
+</table>
+
+<relationship name="Directores_has_many_películas" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#4d493d"
+	 src-table="public.&quot;Directores&quot;"
+	 dst-table="public.&quot;películas&quot;"
+	 src-required="false" dst-required="false"/>
+
+<table name="críticas" layer="0" collapse-mode="2" max-obj-count="7" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="860" y="520"/>
+	<column name="nombre_crítico" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="puntuación">
+		<type name="numeric" length="2" precision="1"/>
+	</column>
+	<column name="texto_crítica">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="críticas_pk" type="pk-constr" table="public.&quot;críticas&quot;">
+		<columns names="nombre_crítico" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="año_películas" index="0"/>
+		<object name="título_películas" index="1"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="películas_fk" index="1"/>
+	</customidxs>
+</table>
+
+<relationship name="películas_críticas" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#c8410d"
+	 src-table="public.&quot;películas&quot;"
+	 dst-table="public.&quot;críticas&quot;"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+/>
+
+<table name="géneros" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="60" y="660"/>
+	<column name="género" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="géneros_pk" type="pk-constr" table="public.&quot;géneros&quot;">
+		<columns names="género" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="películas_géneros" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#82ee97"
+	 src-table="public.&quot;películas&quot;"
+	 dst-table="public.&quot;géneros&quot;"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+/>
+
+<table name="carátulas" layer="0" collapse-mode="2" max-obj-count="4" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="860" y="760"/>
+	<column name="nombre_carátula">
+		<type name="text" length="0"/>
+	</column>
+	<column name="tamaño">
+		<type name="text" length="0"/>
+	</column>
+
+	<customidxs object-type="column">
+		<object name="año_películas" index="0"/>
+		<object name="título_películas" index="1"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="carátulas_pk" index="0"/>
+		<object name="películas_fk" index="1"/>
+	</customidxs>
+</table>
+
+<relationship name="películas_carátulas" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#47feab"
+	 src-table="public.&quot;películas&quot;"
+	 dst-table="public.&quot;carátulas&quot;"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+/>
+
+<table name="página web" layer="0" collapse-mode="2" max-obj-count="1" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1300" y="520"/>
+	<column name="página_web" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="página web_pk" type="pk-constr" table="public.&quot;página web&quot;">
+		<columns names="página_web" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="página web_críticas" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#a45668"
+	 src-table="public.&quot;página web&quot;"
+	 dst-table="public.&quot;críticas&quot;"
+	 src-required="true" dst-required="false">
+	<label ref-type="name-label">
+		<position x="0.543406" y="-1.55726"/>
+	</label>
+</relationship>
+
+<table name="many_carátulas_has_many_página web" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="public"/>
+	<position x="1220" y="720"/>
+	<column name="fecha">
+		<type name="timestamp" length="0"/>
+	</column>
+</table>
+
+<relationship name="carátulas_página web" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 src-table="public.&quot;carátulas&quot;"
+	 dst-table="public.&quot;many_carátulas_has_many_página web&quot;"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+>
+	<label ref-type="name-label">
+		<position x="2.79341" y="-9.85726"/>
+	</label>
+</relationship>
+
+<table name="Actuan" layer="0" collapse-mode="2" max-obj-count="4" z-value="0">
+	<schema name="public"/>
+	<position x="20" y="360"/>
+	<column name="papel">
+		<type name="smallint" length="0"/>
+	</column>
+
+	<customidxs object-type="column">
+		<object name="año_películas" index="2"/>
+		<object name="nombre_Personal_Actores" index="1"/>
+		<object name="título_películas" index="3"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="Actores_fk" index="1"/>
+		<object name="Actuan_pk" index="0"/>
+		<object name="películas_fk" index="2"/>
+	</customidxs>
+</table>
+
+<relationship name="Actores_has_many_many_Actores_has_many_películas" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 src-table="public.&quot;Actores&quot;"
+	 dst-table="public.&quot;Actuan&quot;"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+/>
+
+<relationship name="películas_has_many_many_Actores_has_many_películas" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 src-table="public.&quot;películas&quot;"
+	 dst-table="public.&quot;Actuan&quot;"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+/>
+
+<table name="guionizan" layer="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="public"/>
+	<position x="740" y="320"/>
+
+	<customidxs object-type="column">
+		<object name="año_películas" index="0"/>
+		<object name="nombre_Personal_Guionistas" index="2"/>
+		<object name="título_películas" index="1"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="Guionistas_fk" index="2"/>
+		<object name="guionizan_pk" index="0"/>
+		<object name="películas_fk" index="1"/>
+	</customidxs>
+</table>
+
+<relationship name="películas_has_many_many_películas_has_many_Guionistas" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 src-table="public.&quot;películas&quot;"
+	 dst-table="public.guionizan"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+/>
+
+<relationship name="Guionistas_has_many_many_películas_has_many_Guionistas" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 src-table="public.&quot;Guionistas&quot;"
+	 dst-table="public.guionizan"
+	 src-required="true" dst-required="false"
+	 identifier="true"
+/>
+
+</dbmodel>
