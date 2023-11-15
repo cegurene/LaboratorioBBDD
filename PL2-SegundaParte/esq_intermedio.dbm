@@ -32,12 +32,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 
 	<customidxs object-type="column">
-		<object name="año_películas" index="4"/>
-		<object name="título_películas" index="5"/>
+		<object name="anno_peliculas" index="4"/>
+		<object name="titulo_peliculas" index="5"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
-		<object name="películas_fk" index="1"/>
+		<object name="peliculas_fk" index="1"/>
 	</customidxs>
 </table>
 
@@ -59,12 +59,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 
 	<customidxs object-type="column">
-		<object name="año_películas" index="3"/>
-		<object name="título_películas" index="4"/>
+		<object name="anno_peliculas" index="3"/>
+		<object name="titulo_peliculas" index="4"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
-		<object name="películas_fk" index="1"/>
+		<object name="peliculas_fk" index="1"/>
 	</customidxs>
 </table>
 
@@ -86,77 +86,77 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 
 	<customidxs object-type="column">
-		<object name="año_películas" index="3"/>
-		<object name="título_películas" index="4"/>
+		<object name="anno_peliculas" index="3"/>
+		<object name="titulo_peliculas" index="4"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
-		<object name="películas_fk" index="1"/>
+		<object name="peliculas_fk" index="1"/>
 	</customidxs>
 </table>
 
-<table name="películas" layer="0" collapse-mode="2" max-obj-count="7" z-value="0">
+<table name="peliculas" layer="0" collapse-mode="2" max-obj-count="7" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
 	<position x="560" y="40"/>
-	<column name="año" not-null="true">
+	<column name="anno" not-null="true">
 		<type name="text" length="0"/>
 	</column>
-	<column name="título" not-null="true">
+	<column name="titulo" not-null="true">
 		<type name="text" length="0"/>
 	</column>
 	<column name="idioma">
 		<type name="text" length="2"/>
 	</column>
-	<column name="duración">
+	<column name="duracion">
 		<type name="text" length="0"/>
 	</column>
-	<column name="calificación">
+	<column name="calificacion">
 		<type name="text" length="0"/>
 	</column>
 	<column name="generos">
 		<type name="text" length="0"/>
 	</column>
-	<constraint name="películas_pk" type="pk-constr" table="public.&quot;películas&quot;">
-		<columns names="año,título" ref-type="src-columns"/>
+	<constraint name="películas_pk" type="pk-constr" table="public.peliculas">
+		<columns names="anno,titulo" ref-type="src-columns"/>
 	</constraint>
 </table>
 
-<table name="críticas" layer="0" collapse-mode="2" max-obj-count="7" z-value="0">
+<table name="criticas" layer="0" collapse-mode="2" max-obj-count="7" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
 	<position x="80" y="320"/>
-	<column name="nombre_crítico" not-null="true">
+	<column name="nombre_critico" not-null="true">
 		<type name="text" length="0"/>
 	</column>
-	<column name="puntuación">
+	<column name="puntuacion">
 		<type name="text" length="2" precision="1"/>
 	</column>
-	<column name="texto_crítica">
+	<column name="texto_critica">
 		<type name="text" length="0"/>
 	</column>
 	<column name="url">
 		<type name="text" length="0"/>
 	</column>
-	<constraint name="críticas_pk" type="pk-constr" table="public.&quot;críticas&quot;">
-		<columns names="nombre_crítico" ref-type="src-columns"/>
+	<constraint name="criticas_pk" type="pk-constr" table="public.criticas">
+		<columns names="nombre_critico" ref-type="src-columns"/>
 	</constraint>
 
 	<customidxs object-type="column">
-		<object name="año_películas" index="4"/>
-		<object name="título_películas" index="5"/>
+		<object name="anno_peliculas" index="4"/>
+		<object name="titulo_peliculas" index="5"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
-		<object name="películas_fk" index="1"/>
+		<object name="peliculas_fk" index="1"/>
 	</customidxs>
 </table>
 
-<table name="carátulas" layer="0" collapse-mode="2" max-obj-count="7" z-value="0">
+<table name="caratulas" layer="0" collapse-mode="2" max-obj-count="7" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
 	<position x="80" y="40"/>
-	<column name="nombre_carátula" not-null="true">
+	<column name="nombre_caratula" not-null="true">
 		<type name="text" length="0"/>
 	</column>
 	<column name="fecha">
@@ -165,20 +165,20 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="url">
 		<type name="text" length="0"/>
 	</column>
-	<column name="tamaño">
+	<column name="tamanno">
 		<type name="text" length="0"/>
 	</column>
-	<constraint name="carátulas_pk" type="pk-constr" table="public.&quot;carátulas&quot;">
-		<columns names="nombre_carátula" ref-type="src-columns"/>
+	<constraint name="caratulas_pk" type="pk-constr" table="public.caratulas">
+		<columns names="nombre_caratula" ref-type="src-columns"/>
 	</constraint>
 
 	<customidxs object-type="column">
-		<object name="año_películas" index="4"/>
-		<object name="título_películas" index="5"/>
+		<object name="anno_peliculas" index="4"/>
+		<object name="titulo_peliculas" index="5"/>
 	</customidxs>
 
 	<customidxs object-type="constraint">
-		<object name="películas_fk" index="1"/>
+		<object name="peliculas_fk" index="1"/>
 	</customidxs>
 </table>
 
@@ -187,8 +187,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
 	 src-fk-pattern="{st}_fk"
 	 custom-color="#bc45a3"
-	 src-table="public.&quot;películas&quot;"
-	 dst-table="public.&quot;críticas&quot;"
+	 src-table="public.peliculas"
+	 dst-table="public.criticas"
 	 src-required="false" dst-required="false">
 	<label ref-type="src-label">
 		<position x="11.0625" y="18.236"/>
@@ -200,8 +200,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
 	 src-fk-pattern="{st}_fk"
 	 custom-color="#fcf92e"
-	 src-table="public.&quot;películas&quot;"
-	 dst-table="public.&quot;carátulas&quot;"
+	 src-table="public.peliculas"
+	 dst-table="public.caratulas"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="películas_has_many_Actores" type="rel1n" layer="0"
@@ -209,7 +209,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
 	 src-fk-pattern="{st}_fk"
 	 custom-color="#25035b"
-	 src-table="public.&quot;películas&quot;"
+	 src-table="public.peliculas"
 	 dst-table="public.&quot;Actores&quot;"
 	 src-required="false" dst-required="false"/>
 
@@ -218,7 +218,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
 	 src-fk-pattern="{st}_fk"
 	 custom-color="#0269b6"
-	 src-table="public.&quot;películas&quot;"
+	 src-table="public.peliculas"
 	 dst-table="public.&quot;Directores&quot;"
 	 src-required="false" dst-required="false"/>
 
@@ -227,7 +227,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
 	 src-fk-pattern="{st}_fk"
 	 custom-color="#c95e99"
-	 src-table="public.&quot;películas&quot;"
+	 src-table="public.peliculas"
 	 dst-table="public.&quot;Guionistas&quot;"
 	 src-required="false" dst-required="false"/>
 
