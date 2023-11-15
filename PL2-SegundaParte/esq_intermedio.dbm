@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.3-beta1" use-changelog="false" last-position="0,0" last-zoom="0.9" max-obj-count="7"
+	 default-owner="postgres">
+<database name="new_database" is-template="false" allow-conns="true">
+</database>
+
+<schema name="public" layer="0" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="Actores" layer="0" collapse-mode="2" max-obj-count="7" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="980" y="40"/>
+	<column name="nombre" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="anno_nacimiento" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="anno_muerte">
+		<type name="text" length="0"/>
+	</column>
+	<column name="papel">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="Actores_pk" type="pk-constr" table="public.&quot;Actores&quot;">
+		<columns names="nombre,anno_nacimiento" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="año_películas" index="4"/>
+		<object name="título_películas" index="5"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="películas_fk" index="1"/>
+	</customidxs>
+</table>
+
+<table name="Directores" layer="0" collapse-mode="2" max-obj-count="6" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="980" y="340"/>
+	<column name="nombre" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="anno_nacimiento" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="anno_muerte">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="Directores_pk" type="pk-constr" table="public.&quot;Directores&quot;">
+		<columns names="nombre,anno_nacimiento" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="año_películas" index="3"/>
+		<object name="título_películas" index="4"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="películas_fk" index="1"/>
+	</customidxs>
+</table>
+
+<table name="Guionistas" layer="0" collapse-mode="2" max-obj-count="6" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="520" y="340"/>
+	<column name="nombre" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="anno_nacimiento" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="anno_muerte">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="Guionistas_pk" type="pk-constr" table="public.&quot;Guionistas&quot;">
+		<columns names="nombre,anno_nacimiento" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="año_películas" index="3"/>
+		<object name="título_películas" index="4"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="películas_fk" index="1"/>
+	</customidxs>
+</table>
+
+<table name="películas" layer="0" collapse-mode="2" max-obj-count="7" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="560" y="40"/>
+	<column name="año" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="título" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="idioma">
+		<type name="text" length="2"/>
+	</column>
+	<column name="duración">
+		<type name="text" length="0"/>
+	</column>
+	<column name="calificación">
+		<type name="text" length="0"/>
+	</column>
+	<column name="generos">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="películas_pk" type="pk-constr" table="public.&quot;películas&quot;">
+		<columns names="año,título" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="críticas" layer="0" collapse-mode="2" max-obj-count="7" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="80" y="320"/>
+	<column name="nombre_crítico" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="puntuación">
+		<type name="text" length="2" precision="1"/>
+	</column>
+	<column name="texto_crítica">
+		<type name="text" length="0"/>
+	</column>
+	<column name="url">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="críticas_pk" type="pk-constr" table="public.&quot;críticas&quot;">
+		<columns names="nombre_crítico" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="año_películas" index="4"/>
+		<object name="título_películas" index="5"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="películas_fk" index="1"/>
+	</customidxs>
+</table>
+
+<table name="carátulas" layer="0" collapse-mode="2" max-obj-count="7" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="80" y="40"/>
+	<column name="nombre_carátula" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="fecha">
+		<type name="text" length="0"/>
+	</column>
+	<column name="url">
+		<type name="text" length="0"/>
+	</column>
+	<column name="tamaño">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="carátulas_pk" type="pk-constr" table="public.&quot;carátulas&quot;">
+		<columns names="nombre_carátula" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="año_películas" index="4"/>
+		<object name="título_películas" index="5"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="películas_fk" index="1"/>
+	</customidxs>
+</table>
+
+<relationship name="películas_has_many_críticas" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#bc45a3"
+	 src-table="public.&quot;películas&quot;"
+	 dst-table="public.&quot;críticas&quot;"
+	 src-required="false" dst-required="false">
+	<label ref-type="src-label">
+		<position x="11.0625" y="18.236"/>
+	</label>
+</relationship>
+
+<relationship name="películas_has_many_carátulas" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#fcf92e"
+	 src-table="public.&quot;películas&quot;"
+	 dst-table="public.&quot;carátulas&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="películas_has_many_Actores" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#25035b"
+	 src-table="public.&quot;películas&quot;"
+	 dst-table="public.&quot;Actores&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="películas_has_many_Directores" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#0269b6"
+	 src-table="public.&quot;películas&quot;"
+	 dst-table="public.&quot;Directores&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="películas_has_many_Guionistas" type="rel1n" layer="0"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#c95e99"
+	 src-table="public.&quot;películas&quot;"
+	 dst-table="public.&quot;Guionistas&quot;"
+	 src-required="false" dst-required="false"/>
+
+</dbmodel>
