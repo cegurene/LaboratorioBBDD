@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.3-beta1" use-changelog="false" last-position="0,0" last-zoom="0.9" max-obj-count="7"
+<dbmodel pgmodeler-ver="0.9.3-beta1" use-changelog="false" last-position="98,0" last-zoom="1" max-obj-count="7"
 	 default-owner="postgres">
 <database name="new_database" is-template="false" allow-conns="true">
 </database>
@@ -18,7 +18,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="nombre" not-null="true">
 		<type name="text" length="0"/>
 	</column>
-	<column name="anno_nacimiento" not-null="true">
+	<column name="anno_nacimiento">
 		<type name="text" length="0"/>
 	</column>
 	<column name="anno_muerte">
@@ -28,7 +28,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text" length="0"/>
 	</column>
 	<constraint name="Actores_pk" type="pk-constr" table="public.&quot;Actores&quot;">
-		<columns names="nombre,anno_nacimiento" ref-type="src-columns"/>
+		<columns names="nombre" ref-type="src-columns"/>
 	</constraint>
 
 	<customidxs object-type="column">
@@ -48,14 +48,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="nombre" not-null="true">
 		<type name="text" length="0"/>
 	</column>
-	<column name="anno_nacimiento" not-null="true">
+	<column name="anno_nacimiento">
 		<type name="text" length="0"/>
 	</column>
 	<column name="anno_muerte">
 		<type name="text" length="0"/>
 	</column>
 	<constraint name="Directores_pk" type="pk-constr" table="public.&quot;Directores&quot;">
-		<columns names="nombre,anno_nacimiento" ref-type="src-columns"/>
+		<columns names="nombre" ref-type="src-columns"/>
 	</constraint>
 
 	<customidxs object-type="column">
@@ -71,18 +71,18 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="Guionistas" layer="0" collapse-mode="2" max-obj-count="6" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="520" y="340"/>
+	<position x="540" y="440"/>
 	<column name="nombre" not-null="true">
 		<type name="text" length="0"/>
 	</column>
-	<column name="anno_nacimiento" not-null="true">
+	<column name="anno_nacimiento">
 		<type name="text" length="0"/>
 	</column>
 	<column name="anno_muerte">
 		<type name="text" length="0"/>
 	</column>
 	<constraint name="Guionistas_pk" type="pk-constr" table="public.&quot;Guionistas&quot;">
-		<columns names="nombre,anno_nacimiento" ref-type="src-columns"/>
+		<columns names="nombre" ref-type="src-columns"/>
 	</constraint>
 
 	<customidxs object-type="column">
@@ -98,7 +98,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="peliculas" layer="0" collapse-mode="2" max-obj-count="7" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="560" y="40"/>
+	<position x="600" y="40"/>
 	<column name="anno" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -125,7 +125,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="criticas" layer="0" collapse-mode="2" max-obj-count="7" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="80" y="320"/>
+	<position x="160" y="340"/>
 	<column name="nombre_critico" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -155,7 +155,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="caratulas" layer="0" collapse-mode="2" max-obj-count="7" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="80" y="40"/>
+	<position x="140" y="20"/>
 	<column name="nombre_caratula" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -229,6 +229,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 custom-color="#c95e99"
 	 src-table="public.peliculas"
 	 dst-table="public.&quot;Guionistas&quot;"
-	 src-required="false" dst-required="false"/>
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="6.86841" y="0.467736"/>
+	</label>
+</relationship>
 
 </dbmodel>

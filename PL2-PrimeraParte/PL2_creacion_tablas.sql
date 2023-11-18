@@ -1,3 +1,7 @@
+BEGIN;
+
+CREATE SCHEMA IF NOT EXISTS cine;
+
 CREATE TABLE Peliculas (
 	Titulo TEXT NOT NULL,
 	Año date NOT NULL,
