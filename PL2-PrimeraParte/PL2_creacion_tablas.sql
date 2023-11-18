@@ -2,118 +2,119 @@ BEGIN;
 
 CREATE SCHEMA IF NOT EXISTS cine;
 
-CREATE TABLE Peliculas (
-	Titulo TEXT NOT NULL,
-	Año date NOT NULL,
-	Duracion integer NOT NULL,
-	CalificacionMPA TEXT,
-	Idioma char(2) NOT NULL,
-	nombre_Personal_Directores TEXT NOT NULL,
+CREATE TABLE peliculas_final (
+	titulo TEXT NOT NULL,
+	anno date NOT NULL,
+	duracion integer NOT NULL,
+	calificacionMPA TEXT,
+	idioma char(2) NOT NULL,
+	nombre_personal_Directores TEXT NOT NULL,
 
-	CONSTRAINT Peliculas_pk PRIMARY KEY (Titulo,Año),
-	CONSTRAINT Directores_fk FOREIGN KEY (nombre_Personal_Directores) 
-     REFERENCES Directores (id) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+	CONSTRAINT peliculas_final_pk PRIMARY KEY (titulo,anno),
+	CONSTRAINT directores_final_fk1 FOREIGN KEY (nombre_personal_Directores) 
+     REFERENCES directores_final (id) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE Criticas (
-	Critico TEXT NOT NULL,
-	Puntuacion numeric(2,1) NOT NULL,
-	Texto TEXT NOT NULL,
-	Titulo_Peliculas TEXT NOT NULL,
-	Año_Peliculas integer NOT NULL,
-	URL_PaginaWeb TEXT NOT NULL,
-	Fecha date NOT NULL,
-
-	CONSTRAINT Criticas_pk PRIMARY KEY (Critico),
-	CONSTRAINT Peliculas_fk FOREIGN KEY (Titulo_Peliculas, Año_Peliculas) 
-     REFERENCES Peliculas (Titulo, Año) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
-	CONSTRAINT PaginaWeb_fk FOREIGN KEY (URL_PaginaWeb) 
-     REFERENCES PaginaWeb (url_web) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
-CREATE TABLE PaginaWeb (
+CREATE TABLE criticas_final (
+	critico TEXT NOT NULL,
+	puntuacion numeric(2,1) NOT NULL,
+	texto TEXT NOT NULL,
+	titulo_peliculas TEXT NOT NULL,
+	anno_peliculas integer NOT NULL,
 	url_web TEXT NOT NULL,
-	Tipo char(20),
-	CONSTRAINT PaginaWeb_pk PRIMARY KEY (url_web)
+	fecha date NOT NULL,
+
+	CONSTRAINT criticas_final_pk1 PRIMARY KEY (critico),
+	CONSTRAINT peliculas_final_fk1 FOREIGN KEY (titulo_peliculas, anno_peliculas) 
+     REFERENCES peliculas_final (titulo, anno) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT pagina_web_final_fk1 FOREIGN KEY (url_web) 
+     REFERENCES pagina_web_final (url_web) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE Caratulas (
-	Nombre TEXT NOT NULL,
-	Tamaño TEXT NOT NULL,
-	Titulo_Peliculas TEXT NOT NULL,
-	Año_Peliculas integer NOT NULL,
+CREATE TABLE pagina_web_final (
+	url_web TEXT NOT NULL,
+	CONSTRAINT pagina_web_final_pk PRIMARY KEY (url_web)
+);
 
-	CONSTRAINT Caratulas_pk PRIMARY KEY (Nombre,Titulo_Peliculas, Año_Peliculas),
-	CONSTRAINT Peliculas_fk FOREIGN KEY (Titulo_Peliculas, Año_Peliculas) 
-     REFERENCES Peliculas (Titulo, Año) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
+CREATE TABLE caratulas_final (
+	nombre TEXT NOT NULL,
+	tamanno TEXT NOT NULL,
+	titulo_peliculas TEXT NOT NULL,
+	anno_peliculas integer NOT NULL,
+
+	CONSTRAINT caratulas_final_pk PRIMARY KEY (nombre,titulo_peliculas, anno_peliculas),
+	CONSTRAINT peliculas_final_fk2 FOREIGN KEY (titulo_peliculas, anno_peliculas) 
+     REFERENCES peliculas_final (titulo, anno) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
 	
 );
 
-CREATE TABLE Caratulas_WEB (
-     URL_PaginaWeb TEXT NOT NULL,
-	Fecha date NOT NULL,
-	Titulo_Peliculas TEXT NOT NULL,
-	Año_Peliculas integer NOT NULL,
+CREATE TABLE caratulas_WEB_final (
+    url_web TEXT NOT NULL,
+	fecha date NOT NULL,
+	titulo_peliculas TEXT NOT NULL,
+	anno_peliculas integer NOT NULL,
 
-     CONSTRAINT Caratulas_WEB_pk PRIMARY KEY (URL_PaginaWeb,Titulo_Peliculas, Año_Peliculas),
-     CONSTRAINT PaginaWeb_fk FOREIGN KEY (URL_PaginaWeb) 
-     REFERENCES PaginaWeb (url_web) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+     CONSTRAINT caratulas_WEB_final_pk PRIMARY KEY (url_web,titulo_peliculas, anno_peliculas),
+     CONSTRAINT pagina_web_final_fk2 FOREIGN KEY (url_web) 
+     REFERENCES pagina_web_final (url_web) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 
-CREATE TABLE Personal (
-	Nombre TEXT NOT NULL,
-	AñoNacimiento integer NOT NULL,
-	AñoMuerte integer NOT NULL,
+CREATE TABLE personal_final (
+	nombre TEXT NOT NULL,
+	anno_nacimiento integer NOT NULL,
+	anno_muerte integer NOT NULL,
 
-	CONSTRAINT Personal_pk PRIMARY KEY (Nombre)
+	CONSTRAINT personal_final_pk PRIMARY KEY (nombre)
 );
 
-CREATE TABLE Directores (
-  Nombre TEXT NOT NULL,
+CREATE TABLE directores_final (
+  nombre TEXT NOT NULL,
 
-  CONSTRAINT Directores_pk PRIMARY KEY (Nombre),
-  CONSTRAINT Personal_fk FOREIGN KEY (Nombre) 
-  REFERENCES Personal (Nombre) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT directores_final_pk PRIMARY KEY (nombre),
+  CONSTRAINT personal_final_fk1 FOREIGN KEY (nombre) 
+  REFERENCES personal_final (nombre) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE Guionistas (
-  Nombre TEXT NOT NULL,
+CREATE TABLE guionistas_final (
+  nombre TEXT NOT NULL,
   
-  CONSTRAINT Guionistas_pk PRIMARY KEY (Nombre),
-  CONSTRAINT Personal_fk FOREIGN KEY (Nombre) 
-  REFERENCES Personal (Nombre) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT guionistas_final_pk PRIMARY KEY (nombre),
+  CONSTRAINT personal_final_fk2 FOREIGN KEY (nombre) 
+  REFERENCES personal_final (nombre) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE Actores (
-  Nombre TEXT NOT NULL,
+CREATE TABLE actores_final (
+  nombre TEXT NOT NULL,
   
-  CONSTRAINT Actores_pk PRIMARY KEY (Nombre),
-  CONSTRAINT Personal_fk FOREIGN KEY (Nombre) 
-  REFERENCES Personal (Nombre) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT actores_final_pk PRIMARY KEY (nombre),
+  CONSTRAINT personal_final_fk3 FOREIGN KEY (nombre) 
+  REFERENCES personal_final (nombre) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE Actua (
-	Titulo_Peliculas TEXT NOT NULL,
-	Año_Peliculas integer NOT NULL,
-	Nombre_actor TEXT NOT NULL,
-	Personaje TEXT,
+CREATE TABLE actua_final (
+	titulo_peliculas TEXT NOT NULL,
+	anno_peliculas integer NOT NULL,
+	nombre_actor TEXT NOT NULL,
+	personaje TEXT,
 
-	CONSTRAINT Actua_pk PRIMARY KEY (Titulo_Peliculas,Año_Peliculas,Nombre_actor),
-	CONSTRAINT Actores_fk FOREIGN KEY (Nombre_actor) 
-     REFERENCES Actores (Nombre) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
-	CONSTRAINT Peliculas_fk FOREIGN KEY (Titulo_Peliculas, Año_Peliculas) 
-     REFERENCES Peliculas (Titulo, Año) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+	CONSTRAINT actua_final_pk PRIMARY KEY (titulo_peliculas,anno_peliculas,nombre_actor),
+	CONSTRAINT actores_final_fk FOREIGN KEY (nombre_actor) 
+     REFERENCES actores_final (nombre) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT peliculas_final_fk3 FOREIGN KEY (titulo_peliculas, anno_peliculas) 
+     REFERENCES peliculas_final (titulo, anno) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE Escribe (
-	Titulo_Peliculas TEXT NOT NULL,
-	Año_Peliculas integer NOT NULL,
-	Nombre_guionista TEXT NOT NULL,
+CREATE TABLE escribe_final (
+	titulo_peliculas TEXT NOT NULL,
+	anno_peliculas integer NOT NULL,
+	nombre_guionista TEXT NOT NULL,
 
-	CONSTRAINT Escribe_pk PRIMARY KEY (Titulo_Peliculas,Año_Peliculas,Nombre_guionista),
-	CONSTRAINT Guionistas_fk FOREIGN KEY (Nombre_guionista) 
-     REFERENCES Guionistas (id) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
-	CONSTRAINT Peliculas_fk FOREIGN KEY (Titulo_Peliculas, Año_Peliculas) 
-     REFERENCES Peliculas (Titulo, Año) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+	CONSTRAINT escribe_final_pk PRIMARY KEY (titulo_peliculas,anno_peliculas,nombre_guionista),
+	CONSTRAINT guionistas_final_fk FOREIGN KEY (nombre_guionista) 
+     REFERENCES guionistas_final (id) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT peliculas_final_fk4 FOREIGN KEY (titulo_peliculas, anno_peliculas) 
+     REFERENCES peliculas_final (titulo, anno) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
+
+ROLLBACK;
