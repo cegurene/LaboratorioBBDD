@@ -204,9 +204,9 @@ INSERT INTO cine.generos_peliculas_final(genero, anno_peliculas, titulo_pelicula
 SELECT DISTINCT regexp_split_to_table(generos, '\s+'), CAST(anno AS integer), titulo
 FROM intermedio.peliculas_intermedio ON CONFLICT DO NOTHING;
 
-UPDATE cine.peliculas_final
-SET nombre_personal_Directores = STRING_AGG(intermedio.directores_intermedio.nombre, ', ')
-FROM intermedio.directores_intermedio
-WHERE intermedio.directores_intermedio.titulo_peliculas = cine.peliculas_final.titulo;
+--UPDATE cine.peliculas_final
+--SET nombre_personal_Directores = STRING_AGG(intermedio.directores_intermedio.nombre, ', ')
+--FROM intermedio.directores_intermedio
+--WHERE intermedio.directores_intermedio.titulo_peliculas = cine.peliculas_final.titulo;
 
 ROLLBACK;
