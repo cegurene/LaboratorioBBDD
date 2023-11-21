@@ -15,14 +15,13 @@ CREATE TABLE cine.peliculas_final (
 
 CREATE TABLE cine.criticas_final (
 	critico TEXT NOT NULL,
-	puntuacion numeric(2,1),
-	texto TEXT,
+	puntuacion numeric(2,1) NOT NULL,
+	texto TEXT NOT NULL,
 	titulo_peliculas TEXT NOT NULL,
 	anno_peliculas integer NOT NULL,
 	url_web TEXT NOT NULL,
-	fecha date,
 
-	CONSTRAINT criticas_final_pk1 PRIMARY KEY (critico)
+	CONSTRAINT criticas_final_pk1 PRIMARY KEY (critico, puntuacion, texto, titulo_peliculas, anno_peliculas)
 );
 
 CREATE TABLE cine.pagina_web_final (
@@ -82,7 +81,7 @@ CREATE TABLE cine.actua_final (
 	nombre_actor TEXT NOT NULL,
 	personaje TEXT,
 
-	CONSTRAINT actua_final_pk PRIMARY KEY (titulo_peliculas,anno_peliculas,nombre_actor)
+	CONSTRAINT actua_final_pk PRIMARY KEY (titulo_peliculas, anno_peliculas, nombre_actor)
 );
 
 CREATE TABLE cine.escribe_final (
@@ -90,13 +89,20 @@ CREATE TABLE cine.escribe_final (
 	anno_peliculas integer NOT NULL,
 	nombre_guionista TEXT NOT NULL,
 
-	CONSTRAINT escribe_final_pk PRIMARY KEY (titulo_peliculas,anno_peliculas,nombre_guionista)
+	CONSTRAINT escribe_final_pk PRIMARY KEY (titulo_peliculas, anno_peliculas, nombre_guionista)
 );
 
+CREATE TABLE cine.generos_peliculas_final(
+	genero TEXT NOT NULL,
+	anno_peliculas integer NOT NULL,
+	titulo_peliculas TEXT NOT NULL,
+
+	CONSTRAINT generos_peliculas_final_pk PRIMARY KEY (genero, anno_peliculas, titulo_peliculas)
+);
 
 \echo 'Annadiendo claves ajenas'
-ALTER TABLE cine.peliculas_final ADD CONSTRAINT directores_final_fk1 FOREIGN KEY (nombre_personal_Directores)
-REFERENCES cine.directores_final (nombre) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE;
+--ALTER TABLE cine.peliculas_final ADD CONSTRAINT directores_final_fk1 FOREIGN KEY (regexp_split_to_table(nombre_personal_Directores, ', '))
+--REFERENCES cine.directores_final (nombre) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE;
 
 ALTER TABLE cine.criticas_final ADD CONSTRAINT peliculas_final_fk1 FOREIGN KEY (titulo_peliculas, anno_peliculas)
 REFERENCES cine.peliculas_final (titulo, anno) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -131,7 +137,10 @@ REFERENCES cine.guionistas_final (nombre) MATCH FULL ON DELETE RESTRICT ON UPDAT
 ALTER TABLE cine.escribe_final ADD CONSTRAINT peliculas_final_fk4 FOREIGN KEY (titulo_peliculas, anno_peliculas) 
 REFERENCES cine.peliculas_final (titulo, anno) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE;
 
+ALTER TABLE cine.generos_peliculas_final ADD CONSTRAINT generos_peliculas_final_fk FOREIGN KEY (titulo_peliculas, anno_peliculas)
+REFERENCES cine.peliculas_final (titulo, anno) MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE;
 
+\echo 'Migrando datos'
 
 INSERT INTO cine.personal_final(nombre, anno_nacimiento, anno_muerte)
 SELECT DISTINCT nombre, CAST(NULLIF(anno_nacimiento, '\N') AS integer), CAST(NULLIF(anno_muerte, '\N') AS integer)
@@ -147,6 +156,11 @@ INSERT INTO cine.peliculas_final(anno,titulo, duracion, calificacionMPA, idioma)
 SELECT DISTINCT CAST(anno AS integer), titulo, NULLIF(duracion, 'NULL'), NULLIF(calificacion, 'NULL'), NULLIF(idioma, 'NULL')
 FROM intermedio.peliculas_intermedio ON CONFLICT DO NOTHING;
 
+--INSERT INTO cine.peliculas_final(anno,titulo, duracion, calificacionMPA, idioma, nombre_personal_Directores)
+--SELECT DISTINCT CAST(anno AS integer), titulo, NULLIF(duracion, 'NULL'), NULLIF(calificacion, 'NULL'), NULLIF(idioma, 'NULL'), STRING_AGG(nombre, ', ')
+--FROM intermedio.peliculas_intermedio JOIN intermedio.directores_intermedio ON intermedio.directores_intermedio.titulo_peliculas = intermedio.peliculas_intermedio.titulo
+--GROUP BY anno, titulo, duracion, calificacion, idioma;
+
 INSERT INTO cine.actores_final(nombre)
 SELECT DISTINCT nombre
 FROM intermedio.actores_intermedio ON CONFLICT DO NOTHING;
@@ -159,8 +173,40 @@ INSERT INTO cine.directores_final(nombre)
 SELECT DISTINCT nombre
 FROM intermedio.directores_intermedio ON CONFLICT DO NOTHING;
 
-INSERT INTO cine.escribe_final(nombre)
-SELECT DISTINCT nombre
-FROM intermedio.directores_intermedio ON CONFLICT DO NOTHING;
+INSERT INTO cine.escribe_final(titulo_peliculas, nombre_guionista, anno_peliculas)
+SELECT DISTINCT titulo_peliculas, nombre, CAST(anno_peliculas AS integer)
+FROM intermedio.guionistas_intermedio ON CONFLICT DO NOTHING;
+
+INSERT INTO cine.actua_final(titulo_peliculas, nombre_actor, anno_peliculas)
+SELECT DISTINCT titulo_peliculas, nombre, CAST(anno_peliculas AS integer)
+FROM intermedio.actores_intermedio ON CONFLICT DO NOTHING;
+
+INSERT INTO cine.pagina_web_final(url_web)
+SELECT DISTINCT url_web
+FROM intermedio.caratulas_intermedio
+UNION
+SELECT DISTINCT url_web
+FROM intermedio.criticas_intermedio ON CONFLICT DO NOTHING;
+
+INSERT INTO cine.criticas_final(anno_peliculas, titulo_peliculas, critico, puntuacion, texto, url_web)
+SELECT CAST(anno_peliculas AS integer), titulo_peliculas, nombre_critico, CAST(puntuacion AS numeric(2,1)), texto_critica, url_web
+FROM intermedio.criticas_intermedio ON CONFLICT DO NOTHING;
+
+INSERT INTO cine.caratulas_final(anno_peliculas, titulo_peliculas, nombre, tamanno)
+SELECT CAST(anno_peliculas AS integer), titulo_peliculas, nombre_caratula, tamanno
+FROM intermedio.caratulas_intermedio ON CONFLICT DO NOTHING;
+
+INSERT INTO cine.caratulas_WEB_final(anno_peliculas, titulo_peliculas, url_web, fecha)
+SELECT CAST(anno_peliculas AS integer), titulo_peliculas, url_web, CAST(NULLIF(fecha, '\N') AS date)
+FROM intermedio.caratulas_intermedio ON CONFLICT DO NOTHING;
+
+INSERT INTO cine.generos_peliculas_final(genero, anno_peliculas, titulo_peliculas)
+SELECT DISTINCT regexp_split_to_table(generos, '\s+'), CAST(anno AS integer), titulo
+FROM intermedio.peliculas_intermedio ON CONFLICT DO NOTHING;
+
+UPDATE cine.peliculas_final
+SET nombre_personal_Directores = STRING_AGG(intermedio.directores_intermedio.nombre, ', ')
+FROM intermedio.directores_intermedio
+WHERE intermedio.directores_intermedio.titulo_peliculas = cine.peliculas_final.titulo;
 
 ROLLBACK;
