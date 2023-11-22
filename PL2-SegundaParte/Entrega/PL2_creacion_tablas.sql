@@ -276,4 +276,4 @@ FROM intermedio.peliculas_intermedio ON CONFLICT DO NOTHING;
 --FROM intermedio.directores_intermedio
 --WHERE intermedio.directores_intermedio.titulo_peliculas = cine.peliculas_final.titulo;
 
-ROLLBACK;
+END;
