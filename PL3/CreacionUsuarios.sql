@@ -1,1 +1,20 @@
-CREATE USER 
+\echo 'Creando usuarios'
+\echo 'Administrador:'
+CREATE USER administrador WITH LOGIN PASSWORD 'admin';
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA cine TO administrador;
+
+\echo 'Gestor'
+CREATE USER gestor WITH LOGIN PASSWORD 'gestor';
+REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA cine FROM gestor;
+GRANT INSERT, UPDATE, DELETE, SELECT ON ALL TABLES IN SCHEMA cine TO gestor;
+
+\echo 'Critico'
+CREATE USER critico WITH LOGIN PASSWORD 'critico';
+REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA cine FROM critico;
+GRANT SELECT ON ALL TABLES IN SCHEMA cine TO critico;
+GRANT INSERT ON TABLE cine.criticas_final TO critico;
+
+\echo 'Cliente'
+CREATE USER cliente WITH LOGIN PASSWORD 'cliente';
+REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA cine FROM cliente;
+GRANT SELECT ON ALL TABLES IN SCHEMA cine TO cliente;
