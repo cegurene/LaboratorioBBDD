@@ -7,16 +7,23 @@ class portException(Exception): pass
 
 def ask_conn_parameters():
     """
-        ask_conn_parameters:: () -> IO String
         pide los parámetros de conexión
-        TODO: cada estudiante debe introducir los valores para su base de datos
     """
+    print('Se va a intentar conectar a la base de datos.')
     host = 'localhost'                                                          
     port = 5432                                       
-    user = input('User: ')                                                                   
+    user = 'postgres'
     password = input('Password: ')                                                               
-    database = ''                                                               
+    database = 'postgres'                                                               
     return (host, port, user, password, database)
+
+def ask_query():
+    return input("Query: ")
+
+def ask_user():
+    usuario = input('Usuario: ')
+    contrasenna = input('Password: ')
+    return (usuario, contrasenna)
 
 
 def main():
@@ -25,29 +32,22 @@ def main():
     """
     try:
 
-        resultado = False
+        (host, port, user, password, database) = ask_conn_parameters()          
+        connstring = f"host={host} port={port} user={user} password={password} dbname={database} options='-c search_path=cine'"
+        conn = psycopg2.connect(connstring)
+        cur = conn.cursor()
+        print('Se ha conectado a la base de datos correctamente.')
 
-        while resultado == False:
-            (host, port, user, password, database) = ask_conn_parameters()          
-            connstring = f'host={host} port={port} user={user} password={password} dbname={database}' 
-            
-            cur = conn.cursor()
 
-            cur.execute("USE cine")
-            cur.execute("SELECT user FROM mysql.user WHERE user = %s AND authentication_string = PASSWORD(%s)", (user, password))
-            resultado = cur.fetchone()
-            if resultado == True:
-                print("¡Credenciales válidas! Acceso concedido.")
-            else:
-                print("Credenciales incorrectas. Acceso denegado.")
-                cur.close                                                       # cierra el cursor
-        
-        conn    = psycopg2.connect(connstring)
-        query   = 'SELECT * FROM películas.final'                               # cambiar la query para cada consulta diferente  
-        cur.execute(query)                                                      # ejecuta la consulta
+        query = ask_query()  
+        cur.execute(query)
+
         for record in cur.fetchall():                                           # fetchall devuelve todas las filas de la consulta
-            print(record)                                                       # imprime las filas   
+            print(record)
+
+        cur.close  
         conn.close                                                              # cierra la conexion
+        
     except portException:
         print("The port is not valid!")
     except KeyboardInterrupt:
