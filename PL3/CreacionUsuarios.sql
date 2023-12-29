@@ -1,20 +1,24 @@
 \echo 'Creando usuarios'
 \echo 'Administrador:'
 CREATE USER administrador WITH LOGIN PASSWORD 'admin';
+GRANT USAGE ON SCHEMA cine TO administrador;
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA cine TO administrador;
 
 \echo 'Gestor'
 CREATE USER gestor WITH LOGIN PASSWORD 'gestor';
 REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA cine FROM gestor;
+GRANT USAGE ON SCHEMA cine TO gestor;
 GRANT INSERT, UPDATE, DELETE, SELECT ON ALL TABLES IN SCHEMA cine TO gestor;
 
 \echo 'Critico'
 CREATE USER critico WITH LOGIN PASSWORD 'critico';
 REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA cine FROM critico;
+GRANT USAGE ON SCHEMA cine TO critico;
 GRANT SELECT ON ALL TABLES IN SCHEMA cine TO critico;
 GRANT INSERT ON TABLE cine.criticas_final TO critico;
 
 \echo 'Cliente'
 CREATE USER cliente WITH LOGIN PASSWORD 'cliente';
 REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA cine FROM cliente;
+GRANT USAGE ON SCHEMA cine TO cliente;
 GRANT SELECT ON ALL TABLES IN SCHEMA cine TO cliente;
