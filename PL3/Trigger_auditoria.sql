@@ -9,8 +9,6 @@ CREATE TABLE cine.auditoria (
 );
 
 
---Creamos el trigger
-
 CREATE OR REPLACE FUNCTION auditoria_trigger_function() RETURNS TRIGGER AS $$
 BEGIN
     IF TG_OP = 'INSERT' THEN
@@ -27,9 +25,17 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER auditoria_trigger
-AFTER INSERT OR UPDATE OR DELETE
-ON cine.peliculas_final, cine.criticas_final, cine.caratulas_final, cine.caratulas_WEB_final,
-   cine.personal_final, cine.directores_final, cine.guionistas_final, cine.actores_final,
-   cine.actua_final, cine.escribe_final, cine.generos_peliculas_final
-FOR EACH ROW EXECUTE FUNCTION auditoria_trigger_function();
+-- Crear el trigger de auditoría para cada tabla en el esquema
+DO $$ 
+DECLARE
+    tabla_name TEXT;
+BEGIN
+    FOR tabla_name IN (SELECT table_name FROM information_schema.tables WHERE table_schema = 'cine') 
+    LOOP
+        EXECUTE format('
+            CREATE TRIGGER auditoria_trigger_%s
+            AFTER INSERT OR UPDATE OR DELETE ON %s
+            FOR EACH ROW EXECUTE FUNCTION auditoria_trigger_function()',
+            tabla_name, tabla_name);
+    END LOOP;
+END $$;

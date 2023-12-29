@@ -9,7 +9,14 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER insertar_pagina_web_trigger
+-- Crear el trigger para cine.criticas_final
+CREATE TRIGGER insertar_pagina_web_trigger_criticas
 AFTER INSERT
-ON cine.criticas_final, cine.caratulas_final
+ON cine.criticas_final
+FOR EACH ROW EXECUTE FUNCTION insertar_pagina_web_trigger_function();
+
+-- Crear el trigger para cine.caratulas_final
+CREATE TRIGGER insertar_pagina_web_trigger_caratulas
+AFTER INSERT
+ON cine.caratulas_final
 FOR EACH ROW EXECUTE FUNCTION insertar_pagina_web_trigger_function();

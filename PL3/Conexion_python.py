@@ -12,18 +12,13 @@ def ask_conn_parameters():
     print('Se va a intentar conectar a la base de datos.')
     host = 'localhost'                                                          
     port = 5432                                       
-    user = 'postgres'
-    password = input('Password: ')                                                               
+    user = input('Usuario: ')
+    password = input('Contrasenna: ')                                                          
     database = 'postgres'                                                               
     return (host, port, user, password, database)
 
 def ask_query():
     return input("Query: ")
-
-def ask_user():
-    usuario = input('Usuario: ')
-    contrasenna = input('Password: ')
-    return (usuario, contrasenna)
 
 
 def main():
