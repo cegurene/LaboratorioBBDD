@@ -11,9 +11,12 @@ $$ LANGUAGE plpgsql;
 
 -- Crear el trigger para cine.criticas_final
 CREATE TRIGGER insertar_pagina_web_trigger_criticas
-AFTER INSERT
+BEFORE INSERT
 ON cine.criticas_final
-FOR EACH ROW EXECUTE FUNCTION insertar_pagina_web_trigger_function();
+FOR EACH ROW
+BEGIN
+EXECUTE FUNCTION insertar_pagina_web_trigger_function()
+INSERT INTO cine.criticas_final VALUES(NEW.critico, NEW.puntuacion, NEW.texto, NEW. titulo_peliculas, NEW.anno_peliculas, NEW.url_web);
 
 -- Crear el trigger para cine.caratulas_final
 CREATE TRIGGER insertar_pagina_web_trigger_caratulas
