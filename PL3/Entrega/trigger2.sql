@@ -1,17 +1,8 @@
 CREATE OR REPLACE FUNCTION insertar_pagina_web_trigger_function() RETURNS TRIGGER AS $$
 BEGIN
-    IF TG_TABLE_NAME = 'criticas_final' AND NEW.url_web NOT IN (SELECT url_web FROM cine.pagina_web_final) THEN
-        IF NEW.titulo_peliculas NOT IN (SELECT titulo FROM cine.peliculas_final) AND NEW.anno_peliculas NOT IN (SELECT anno FROM cine.peliculas_final) THEN
-            RETURN NULL;
-        ELSE
-            INSERT INTO cine.pagina_web_final (url_web) VALUES (NEW.url_web);
-        END IF;
-    ELSIF TG_TABLE_NAME = 'caratulas_WEB_final' AND NEW.url_web NOT IN (SELECT url_web FROM cine.pagina_web_final) THEN
-        IF NEW.titulo_peliculas NOT IN (SELECT titulo FROM cine.peliculas_final) AND NEW.anno_peliculas NOT IN (SELECT anno FROM cine.peliculas_final) THEN
-            RETURN NULL;
-        ELSE
-            INSERT INTO cine.pagina_web_final (url_web) VALUES (NEW.url_web);
-        END IF;
+    IF NEW.url_web NOT IN (SELECT url_web FROM cine.pagina_web_final) THEN
+        INSERT INTO cine.pagina_web_final (url_web) VALUES (NEW.url_web);
+
     END IF;
     RETURN NEW;
 END;

@@ -13,15 +13,20 @@ WHERE titulo = 'Titulo' AND anno = 2023;
 
 -- Comprobacion trigger 2
 
-INSERT INTO cine.caratulas_final (nombre, titulo_peliculas, anno_peliculas, tamanno)
-VALUES ('Nombre de la Caratula', 'Titulo', 2023, 'Tamanno de la Caratula');
+--INSERT INTO cine.caratulas_final (nombre, titulo_peliculas, anno_peliculas, tamanno)
+--VALUES ('Nombre de la Caratula', 'Titulo', 2023, 'Tamanno');
 
 INSERT INTO cine.caratulas_WEB_final (url_web, fecha, titulo_peliculas, anno_peliculas)
 VALUES ('https://url_inventada.com', current_date, 'Titulo', 2023);
 
-INSERT INTO cine.criticas_final (critico, puntuacion, texto, titulo_peliculas, anno_peliculas, url_web)
-VALUES ('Nombre', 6, 'Texto de la Critica', 'Titulo', 2023, 'https://url_inventada.com');
+INSERT INTO cine.caratulas_WEB_final (url_web, fecha, titulo_peliculas, anno_peliculas)
+VALUES ('https://url_inventada4.com', current_date, 'Titulo', 2023);
 
+INSERT INTO cine.criticas_final (critico, puntuacion, texto, titulo_peliculas, anno_peliculas, url_web)
+VALUES ('Nombre', 5, 'Texto de la Critica', 'Titulo', 2023, 'https://url_inventada2.es');
+
+INSERT INTO cine.criticas_final (critico, puntuacion, texto, titulo_peliculas, anno_peliculas, url_web)
+VALUES ('Nombre', 2, 'Texto de la Critica', 'Titulo', 2023, 'https://url_inventada2.com');
 
 -- Comprobacion trigger 3
 
